@@ -1356,7 +1356,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const unitFarness = 30
 
     let imgElectricProjectile = new Image()
-    imgElectricProjectile.src = '/img/Снаряды/Электрический разряд.png'
+    imgElectricProjectile.src = '/img/Игра/Снаряды/Электрический разряд.png'
 
     
     function makeImgForFrames(animation, animationFrames, walkAnimation, walkAnimationFrames, dyingAnimation, dyingAnimationFrames, unitName) {
@@ -1366,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             img.addEventListener('load', function() {
                 animation[unitFrames - 1] = img
             }, false);
-            img.src = '/img/' + unitName +'/' + unitName +' атакует ' + unitFrames + '.png'
+            img.src = '/img/Игра/' + unitName +'/' + unitName +' атакует ' + unitFrames + '.png'
         }
 
 
@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             img.addEventListener('load', function() {
                 walkAnimation[unitFrames - 1] = img
             }, false);
-            img.src = '/img/' + unitName +'/' + unitName +' идет ' + unitFrames + '.png'
+            img.src = '/img/Игра/' + unitName +'/' + unitName +' идет ' + unitFrames + '.png'
         }
 
 
@@ -1384,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             img.addEventListener('load', function() {
                 dyingAnimation[unitFrames - 1] = img
             }, false);
-            img.src = '/img/' + unitName +'/' + unitName +' умирает ' + unitFrames + '.png'
+            img.src = '/img/Игра/' + unitName +'/' + unitName +' умирает ' + unitFrames + '.png'
         }
     }
 
