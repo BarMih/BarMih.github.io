@@ -1,20 +1,22 @@
 :root {
     --black: #000000;
     --red: #FF0000;
-    --green: #00FF00;
-    --yellow: #FFFF00;
     --orange: #FF8000;
+    --yellow: #FFFF00;
+    --green: #00FF00;
     --azure: #00FFFF;
+    --all: linear-gradient(var(--azure), var(--green), var(--yellow), var(--orange), var(--red), var(--black));
 }
 
 * {
-    /* outline: 1px solid red; */
+    /* outline: .1vw solid red; */
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: url(/img/Сайт/Background.png);
+    background: var(--all);
 }
 
 .orangeText {
@@ -48,8 +50,12 @@ body {
 
 
 
+
+
+
 header {
     position: fixed;
+    top: 0;
     z-index: 99;
     width: 100%;
 }
@@ -63,40 +69,98 @@ a {
     color: var(--orange);
 }
 
+h1 {
+    user-select: none;
+    font-size: 4vh;
+}
+
 h2 {
     user-select: none;
+    font-size: 3vh;
 }
+
+
 
 p {
     user-select: none;
+    font-size: 2vh;
+}
+
+.description {
+    padding: 1vh 1vw;
+    text-align: center;
+    margin: 0vw 0vw 2vw 0vw;
+}
+
+.description > h2 {
+    margin: 0vw 0vw 1vw 0vw;
 }
 
 .container {
-    max-width: 1340px;
-    position: relative;
-    width: 100%;
+    max-width: 100%;
+    /*max-width: 1340px;*/
+    /*max-width: 90vw;*/
+    /*position: relative;*/
+    /*width: 100%;*/
     margin: 0 auto;
-    padding: 0 0px;
+    overflow: auto;
 }
 
+
+
+
+
+
 .menu {
-    display: flex;
-    padding: 10px 100px;
+    padding: 1vw 10vw;
     display: none;
     user-select: none;
 }
 
+.windowSize_input {
+    position: relative;
+    top: 1vw;
+    left: 1vw;
+    height: 4vh;
+    width: 20vh;
+    text-align: center;
+    font-size: 2vh;
+    text-decoration: none;
+    outline: none;
+    user-select: none;
+    /*display: none;*/
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.containerWidth_input {
+    position: relative;
+    top: 1vw;
+    left: 1vw;
+    height: 4vh;
+    width: 4vh;
+    text-align: center;
+    font-size: 2vh;
+    text-decoration: none;
+    outline: none;
+    /*display: none;*/
+}
+
 .menu_button {
-    border: solid 2px var(--black);
-    padding: 10px 10px 20px 40px;
+    border: solid .2vh var(--black);
+    /*padding: 10px 10px 20px 40px;*/
+    padding: 1vh 2vh 2vh 4vh;
     background: var(--green);
-    position: fixed;
-    right: 0px;
-    border-radius: 0px 0px 0px 100px;
-    transform: translateX(2px) translateY(-2px);
-    font-size: 24px;
+    position: absolute;
+    right: 0;
+    border-radius: 0vh 0vh 0vh 10vh;
+    /*transform: translateX(2px) translateY(-2px);*/
+    font-size: 2vh;
     font-weight: 600;
-    display: flex;
     cursor: pointer;
     user-select: none;
 }
@@ -123,17 +187,18 @@ p {
 
 .menu-list {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
 }
 
 .menu-list-item {
-    padding: 20px 40px;
-    border: solid 4px var(--orange);
-    border-radius: 100px;
+    padding: 2vh 4vw;
+    margin: 1vh 1vw;
+    border: solid .6vh var(--orange);
+    border-radius: 10vh;
     background-color: var(--black);
     color: var(--orange);
-    font-size: 24px;
+    font-size: 2vh;
 }
 
 .menu-list-item:hover > a {
@@ -141,24 +206,21 @@ p {
 }
 
 .menu-list-item:hover {
-    border: solid 4px var(--orange);
+    border: solid .6vh var(--orange);
     background-color: var(--orange);
 }
 
-.description {
-    padding: 100px;
-    text-align: center;
-}
 
-.about_site-description-paragraph {
-    font-size: 24px;
-}
+
+/*.about_site {*/
+/*    margin: 10vw 0vw 0vw 0vw;*/
+/*}*/
 
 .about_site-img {
-    height: 600px;
-    background: center/100% no-repeat;
-    background-image: url(/img/Сайт/reisen\ udongein\ inaba\,\ houraisan\ kaguya\,\ inaba\ tewi\,\ and\ yagokoro\ eirin\ \(touhou\)\ drawn\ by\ otomeza_ryuseigun\ -\ a02a75152ec750da61541414416c6bd2.jpg);
+    background: center/contain no-repeat url(/img/Сайт/reisen\ udongein\ inaba\,\ houraisan\ kaguya\,\ inaba\ tewi\,\ and\ yagokoro\ eirin\ \(touhou\)\ drawn\ by\ otomeza_ryuseigun\ -\ a02a75152ec750da61541414416c6bd2.jpg);
 }
+
+
 
 
 
@@ -169,27 +231,27 @@ p {
 
 
 .blog {
-    padding: 50px 0px 50px 0px;
+    padding: 5vw 0vw 5vw 0vw;
 }
 
 .blog-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0px 0px;
 }
 .blog-card {
-    height: 800px;
-    width: 600px;
+    height: 80vh;
+    width: 40vw;
     position: relative;
-    margin-bottom: 40px;
+    margin-bottom: 4vh;
 }
 
 .blog-card:hover {
     border: solid 1px var(--black);
 }
 
-.blog-card:hover > h2 {
+.blog-card-block:hover {
     color: var(--green);
 }
 
@@ -207,18 +269,25 @@ p {
     align-items: flex-end;
 }
 
+.blog-card-block {
+    width: 100%;
+    height: 10vw;
+    display: flex;
+    align-items: center;
+}
+
 .blog-card-title {
+    user-select: none;
+    font-size: 3vw;
     position: absolute;
-    padding: 20px 40px;
-    z-index: 98;
+    padding: 2vw 2vw;
 }
 
 .blog-card-low_opacity {
     width: 100%;
-    height: 100px;
+    height: 100%;
     background: var(--black);
     opacity: 0.6;
-    z-index: 97;
 }
 
 
@@ -229,153 +298,156 @@ p {
 
 
 
-.game_1 {
-    padding: 50px 0px;
-}
 
-.game_block {
-    width: 100%;
-    height: 800px;
-    border: solid 2px var(--black);
-    padding: 20px;
-    position: relative;
-    user-select: none;
-}
 
-.game_area {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    border: solid 2px var(--orange);
-    border-radius: 100px;
-    background: white;
-}
+/*.game_1 {*/
+/*    padding: 50px 0px;*/
+/*}*/
 
-.skills_menu {
-    position: absolute;
-    /* height: 20%; */
-    width: 40%;
-    border: solid 2px var(--orange);
-    border-radius: 100px;
-    right: 0%;
-    bottom: 0%;
-    /* z-index: -1; */
-    background: black;
-    border-radius: 10px 10px 100px 10px;
-    padding: 10px;
-    font-size: 2em;
-    color: var(--orange);
-}
+/*.game_block {*/
+/*    width: 100%;*/
+/*    height: 800px;*/
+/*    border: solid 2px var(--black);*/
+/*    padding: 20px;*/
+/*    position: relative;*/
+/*    user-select: none;*/
+/*}*/
 
-.skills_menu > div {
-    cursor: pointer;
-}
+/*.game_area {*/
+/*    position: relative;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    border: solid 2px var(--orange);*/
+/*    border-radius: 100px;*/
+/*    background: white;*/
+/*}*/
 
-.skills_menu_open {
-    /* height: 100%; */
-    top: 0%;
-    border-radius: 10px 100px 100px 10px;
-}
+/*.skills_menu {*/
+/*    position: absolute;*/
+/*    !* height: 20%; *!*/
+/*    width: 40%;*/
+/*    border: solid 2px var(--orange);*/
+/*    !*border-radius: 100px;*!*/
+/*    right: 0%;*/
+/*    bottom: 0%;*/
+/*    !* z-index: -1; *!*/
+/*    background: black;*/
+/*    border-radius: 10px 10px 100px 10px;*/
+/*    padding: 10px;*/
+/*    !*font-size: 2em;*!*/
+/*    color: var(--orange);*/
+/*}*/
 
-.skills_open {
-    padding: 20px;
-    border-radius: 10px 10px 100px 10px;
-    display: flex;
-    border: solid 2px var(--orange);
-}
+/*.skills_menu > div {*/
+/*    cursor: pointer;*/
+/*}*/
 
-.skills_open_remove {
-    display: none;
-}
+/*.skills_menu_open {*/
+/*    !* height: 100%; *!*/
+/*    top: 0%;*/
+/*    border-radius: 10px 100px 100px 10px;*/
+/*}*/
 
-.skill_1 {
-    display: none;
-}
+/*.skills_open {*/
+/*    padding: 20px;*/
+/*    border-radius: 10px 10px 100px 10px;*/
+/*    display: flex;*/
+/*    border: solid 2px var(--orange);*/
+/*}*/
 
-.skill_1_add {
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    border: solid 2px var(--orange);
-    border-radius: 10px 100px 10px 10px;
-    justify-content: space-around;
-}
+/*.skills_open_remove {*/
+/*    display: none;*/
+/*}*/
 
-.skill_1_parametr {
-    padding: 10px;
-    border-radius: 10px;
-    display: flex;
-    border: solid 2px var(--orange);
-    border-radius: 10px 10px 10px 10px;
-}
+/*.skill_1 {*/
+/*    display: none;*/
+/*}*/
 
-.skills_close {
-    display: none;
-}
+/*.skill_1_add {*/
+/*    padding: 20px;*/
+/*    !*border-radius: 10px;*!*/
+/*    display: flex;*/
+/*    border: solid 2px var(--orange);*/
+/*    border-radius: 10px 100px 10px 10px;*/
+/*    justify-content: space-around;*/
+/*}*/
 
-.skills_close_add {
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    border: solid 2px var(--orange);
-}
+/*.skill_1_parameter {*/
+/*    padding: 10px;*/
+/*    !*border-radius: 10px;*!*/
+/*    display: flex;*/
+/*    border: solid 2px var(--orange);*/
+/*    border-radius: 10px 10px 10px 10px;*/
+/*}*/
 
-.click_block {
-    width: 25%;
-    height: 50%;
-    position: absolute;
-    border-radius: 100%;
-    top: 25%;
-    left: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
+/*.skills_close {*/
+/*    display: none;*/
+/*}*/
 
-.health {
-    font-size: 48px;
-}
+/*.skills_close_add {*/
+/*    padding: 20px;*/
+/*    border-radius: 10px;*/
+/*    display: flex;*/
+/*    border: solid 2px var(--orange);*/
+/*}*/
 
-.souls_block {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-}
+/*.click_block {*/
+/*    width: 25%;*/
+/*    height: 50%;*/
+/*    position: absolute;*/
+/*    border-radius: 100%;*/
+/*    top: 25%;*/
+/*    left: 10%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.souls {
-    position: absolute;
-    height: 120px;
-    width: 120px;
-    border: solid 2px var(--orange);
-    border-radius: 100px;
-    left: 0%;
-    top: 0%;
-    /* z-index: -1; */
-    background: black;
-    border-radius: 100px 10px 10px 10px;
-    padding: 40px;
-    font-size: 2em;
-    color: var(--orange);
-    text-align: center;
-}
+/*.health {*/
+/*    !*font-size: 48px;*!*/
+/*}*/
 
-.souls_tip {
-    display: none;
-    position: absolute;
-    top: 6%;
-    left: 10%;
-    color: var(--orange);
-    font-size: 2em;
-}
+/*.souls_block {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: flex-end;*/
+/*}*/
 
-.souls_block:hover > .souls_tip {
-    display: flex;
-}
+/*.souls {*/
+/*    position: absolute;*/
+/*    height: 120px;*/
+/*    width: 120px;*/
+/*    border: solid 2px var(--orange);*/
+/*    !*border-radius: 100px;*!*/
+/*    left: 0%;*/
+/*    top: 0%;*/
+/*    !* z-index: -1; *!*/
+/*    background: black;*/
+/*    border-radius: 100px 10px 10px 10px;*/
+/*    padding: 40px;*/
+/*    !*font-size: 2em;*!*/
+/*    color: var(--orange);*/
+/*    text-align: center;*/
+/*}*/
+
+/*.souls_tip {*/
+/*    display: none;*/
+/*    position: absolute;*/
+/*    top: 6%;*/
+/*    left: 10%;*/
+/*    color: var(--orange);*/
+/*    !*font-size: 2em;*!*/
+/*}*/
+
+/*.souls_block:hover > .souls_tip {*/
+/*    display: flex;*/
+/*}*/
 
 ::-webkit-scrollbar { /* 1 - скроллбар */
-    width: 0.5vw;
-    background: url(/img/Сайт/Background.png) no-repeat center/20vh;
+    width: 0.4vw;
+    /*background: url(/img/Сайт/Background.png) no-repeat center/cover;*/
+    background: linear-gradient(var(--azure), var(--green), var(--yellow), var(--orange), var(--red), var(--black));
   }
 
   ::-webkit-scrollbar-thumb { /* 5 - ползунок */
@@ -383,18 +455,20 @@ p {
     background: var(--orange);
   }
 
-  .shedule {
+  .schedule {
       width: 100%;
   }
 
-  .shedule_title {
+  .schedule_title {
       text-align: center;
   }
 
-  .shedule_description {
-    text-align: center;
-    font-size: 24px;
-  }
+  /*.schedule_description {*/
+  /*  text-align: center;*/
+  /*  !*font-size: 24px;*!*/
+  /*}*/
+
+
 
 
 
@@ -403,8 +477,9 @@ p {
 
   
   .game_2 {
-      line-height: 0px;
-      padding: 50px 0px;
+      /*line-height: 0px;*/
+      padding: 0vh 0vw;
+      margin: 2vw 0vw;
   }
 
 
@@ -414,7 +489,8 @@ p {
 
 
 .ballistics {
-  padding: 50px 0px;
+    padding: 0vh 0vw;
+    margin: 2vw 0vw;
 }
 
 
@@ -423,48 +499,77 @@ p {
 
 
 
+@media (max-width: 640px) {
+}
 
 
-
-
-
-@media screen and (max-width: 600px) {
-
-    h2 {
-        font-size: 24px;
-    }
-
-    p {
-        font-size: 24px;
-    }
-
-    .container {
-        max-width: 600px;
-        padding: 0px;
-        margin: 0px;
-    }
-
-    .menu_button {
-        right: 0px;
-        border-radius: 0px 0px 0px 100px;
-    }
-
-    .game_block {
-        width: 100%;
-        height: 600px;
-        border: solid 2px var(--black);
-        margin-bottom: 100px;
-        padding: 20px;
-        position: relative;
-    }
-
+@media (max-width: 768px) {
     .blog-card {
-        width: 200px;
-    }
-
-    .skills_menu {
-        font-size: 24px;
-        height: 20%;
-        width: 40%;
+        /*height: 10vh;*/
+        width: 90vw;
     }
 }
+
+
+@media (max-width: 1024px) {
+    /*.blog-card {*/
+    /*    height: 60vh;*/
+    /*    width: 60vw;*/
+    /*}*/
+}
+
+
+@media (max-width: 1280px) {
+    /*.blog-card {*/
+    /*    height: 80vh;*/
+    /*    width: 40vw;*/
+    /*}*/
+}
+
+
+@media (max-width: 1536px) {
+}
+
+
+
+
+/*@media screen and (max-width: 600px) {*/
+
+/*    h2 {*/
+/*        font-size: 24px;*/
+/*    }*/
+
+/*    p {*/
+/*        font-size: 24px;*/
+/*    }*/
+
+/*    .container {*/
+/*        max-width: 600px;*/
+/*        padding: 0px;*/
+/*        margin: 0px;*/
+/*    }*/
+
+/*    .menu_button {*/
+/*        right: 0px;*/
+/*        border-radius: 0px 0px 0px 100px;*/
+/*    }*/
+
+/*    .game_block {*/
+/*        width: 100%;*/
+/*        height: 600px;*/
+/*        border: solid 2px var(--black);*/
+/*        margin-bottom: 100px;*/
+/*        padding: 20px;*/
+/*        position: relative;*/
+/*    }*/
+
+/*    .blog-card {*/
+/*        width: 200px;*/
+/*    }*/
+
+/*    .skills_menu {*/
+/*        font-size: 24px;*/
+/*        height: 20%;*/
+/*        width: 40%;*/
+/*    }*/
+/*}*/
