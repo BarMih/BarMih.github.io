@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<title>rogue</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700&amp;subset=cyrillic" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=cyrillic" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=cyrillic" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i|Tinos:400,400i&amp;subset=cyrillic" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+body, html { height: 100%; }
+body { background-color: #000000; color: #ffffff; }
+h1 { font-family: "Playfair Display"; font-size: 30px; padding: 10px 0px; margin: 0px; }
+.field-box { border: 2px solid #d0d0d0; float: left; }
+/*.field { position: relative; width: 1024px; height: 640px; }*/
+.field { position: relative; width: 1000px; height: 600px; }
+/*.field .tile { position: absolute; width: 50px; height: 50px; background-size: 100%; background-image: url(images/tile-.png); z-index: 5; }*/
+.field .tile { position: absolute; width: 25px; height: 25px; background-size: 100%; background-image: url(images/tile-.png); z-index: 5; }
+.field .tileW { background-image: url(images/tile-W.png); }
+.field .tileE { background-image: url(images/tile-E.png); z-index: 10; }
+.field .tileP { background-image: url(images/tile-P.png); z-index: 10; }
+.field .tileHP { background-image: url(images/tile-HP.png); z-index: 9; }
+.field .tileSW { background-image: url(images/tile-SW.png); z-index: 9; }
+.field .tile .health { background-color: #ff0000; z-index: 11; position: absolute; left: 0px; top: 0px; height: 3px; }
+.field .tileP .health { background-color: #00ff00; z-index: 11; position: absolute; left: 0px; top: 0px; height: 3px; }
+.inventory-box { border: 2px solid #d0d0d0; float: left; }
+.inventory { position: relative; width: 800px; height: 32px; }
+.cl { clear: both; display: block; }
+</style>
+	</head>
+	<body>
+		<h1>Игровое поле</h1>
+		<div class="field-box"><div class="field"></div></div>
+		<div class="cl"></div>
+		<!--h1>Инвентарь</h1>
+		<div class="inventory-box"><div class="inventory"></div></div-->
+		<script>
+
+			// Рандомное число от min и до max включительно
+			function getRandomIntInclusive(min, max) {
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.floor(Math.random() * (max - min + 1) + min); // Максимум и минимум включаются
+			}
+
+			// Отсортированный массив координат рандомного числа дорог от 3 до 5 без повторений
+			function roadArr(roadMaxPos) {
+				const arr = []
+				const roadsCount = getRandomIntInclusive(3,5)
+				while (arr.length < roadsCount) {
+					const roadPos = getRandomIntInclusive(0,roadMaxPos-1)
+					if (arr.indexOf(roadPos) === -1) arr.push(roadPos)
+				}
+				return arr.sort((a,b)=>a-b)
+			}
+
+			let roadsH = roadArr(24)
+			let roadsV = roadArr(40)
+
+			// Является ли клетка дорогой
+			function isRoad(arrH,arrV,iIndex,jIndex) {
+				for (const pos of arrH) {
+					if (pos===iIndex) return true
+				}
+				for (const pos of arrV) {
+					if (pos===jIndex) return true
+				}
+				return false
+			}
+
+			// Создать стены и дороги (В и Г)
+			function makeWallsAndRoads() {
+				const tileArr = []
+				for (let i = 0; i < 24; i++) {
+					tileArr[i] = []
+					for (let j = 0; j < 40; j++) {
+						const node = document.createElement('div')
+						if (i===0) node.innerHTML = j
+						if (j===0) node.innerHTML = i
+						node.setAttribute('class', isRoad(roadsH,roadsV,i,j) ? 'tile' : 'tile tileW')
+						node.style.top= i*25+'px'
+						node.style.left= j*25+'px'
+						tileArr[i][j] = {node,y:i,x:j}
+						document.querySelector('.field').append(tileArr[i][j].node)
+					}
+				}
+				return tileArr
+			}
+
+			// Массив праметров дорог: ширина, высота, координата X координата Y
+			function roomParameters() {
+				const roomsArr = []
+				const roomsCount = getRandomIntInclusive(5,10)
+				for (let i = 0; i < roomsCount; i++) {
+					const W = getRandomIntInclusive(3,8)
+					const H = getRandomIntInclusive(3,8)
+					const roomXPos = getRandomIntInclusive(0,40-W)
+					const roomYPos = getRandomIntInclusive(0,24-H)
+					roomsArr[i] = {W,H,roomYPos,roomXPos}
+				}
+				return roomsArr
+			}
+
+			// Создать комнаты
+			function makeRooms(parametersArr,tileArray) {
+				for (let parameter in parametersArr) {
+					for (let height = 0; height < parametersArr[parameter].H; height++) {
+						for (let width = 0; width < parametersArr[parameter].W; width++) {
+							tileArray[height+parametersArr[parameter].roomYPos][width+parametersArr[parameter].roomXPos].node.setAttribute('class', 'tile')
+						}
+					}
+				}
+				return parametersArr
+			}
+
+			// Массив пустых клеток
+			function makeEmptyArr(arr) {
+				return arr.map( (row) => row.filter( (item) => item.node.className === 'tile'))
+			}
+
+			// Добавить в двумерный массив определенное количество сущностей: мечи, зелья, враги, персонаж
+			function addEntity(entity, count, emptyArr, tileArr) {
+				const posArr = []
+				for (let i = 0; i < count; i++) {
+					const yPos = getRandomIntInclusive(0,emptyArr.length-1)
+					const xPos = getRandomIntInclusive(0,emptyArr[yPos].length-1)
+					if (emptyArr[yPos].length-1<=0) {
+					}
+					posArr[i] = Object.assign({}, {
+						y: emptyArr[yPos][xPos].y,
+						x: emptyArr[yPos][xPos].x
+					})
+					tileArr[posArr[i].y][posArr[i].x].node.classList.add(entity)
+					emptyArr[yPos].splice(xPos,1)
+					if (emptyArr[yPos].length===0) emptyArr.splice(yPos,1)
+				}
+				return posArr
+			}
+
+			// Является ли клетка сущностью
+			function isEntity(tile, entity) {
+				return tile.node.className.includes(entity)
+			}
+
+			// Массив инстансов класса
+			function initMan(className,posArr,tileArr,...characteristics) {
+				return posArr.map( pos => {
+					const HPBar = document.createElement('div')
+					HPBar.classList.add('health')
+					HPBar.style.width = '100%'
+					tileArr[pos.y][pos.x].node.append(HPBar)
+					const man = new className(pos.y,pos.x, ...characteristics)
+					tileArr[pos.y][pos.x].entity = man
+					return man
+				})
+			}
+
+			// Вызывает у всех метод move при нажатии клавиш упарвления
+			function moveEvent(enemiesArr,hero,tileArr) {
+				document.addEventListener('keydown', event => {
+					if (turnEvent.hasEvent(event.code)) {
+						turnEvent.code = event.code
+						enemiesArr.forEach(man=>man.move(...turnEvent.dPos,tileArr))
+						event.code===turnEvent.attack ? hero.attack(tileArr,'tileE') : hero.move(...turnEvent.dPos,tileArr)
+						drawHealthAndDamage(tileArr,hero)
+					}
+				})
+			}
+
+			// Вывести здоровье и атаку
+			function drawHealthAndDamage(tileArr,hero) {
+				tileArr[tileArr.length-1][tileArr[tileArr.length-1].length-2].node.innerHTML = 'HP: ' + hero.health
+				tileArr[tileArr.length-1][tileArr[tileArr.length-1].length-2].node.style.textOverflow = 'auto'
+				tileArr[tileArr.length-1][tileArr[tileArr.length-1].length-6].node.innerHTML = 'Dmg: ' + hero.damage
+				tileArr[tileArr.length-1][tileArr[tileArr.length-1].length-6].node.style.textOverflow = 'auto'
+			}
+
+			// Есть ли недоступный места
+			function closedArea(tileArr,roomsArr,roadsH,roadsV) {
+				for (const roomPar of roomsArr) {
+					let boolean = true
+					for (const roadH of roadsH) if (roadH>=roomPar.roomYPos-1&&roadH<=roomPar.roomYPos+roomPar.H) boolean = false
+					for (const roadV of roadsV) if (roadV>=roomPar.roomXPos-1&&roadV<=roomPar.roomXPos+roomPar.W) boolean = false
+					if (boolean) return boolean = true
+				}
+			}
+
+
+			class Game {
+				constructor() {}
+				init() {
+					let tileArray = makeWallsAndRoads()
+					let roomsArray = makeRooms(roomParameters(), tileArray)
+					if (closedArea(tileArray,roomsArray,roadsH,roadsV)) location.reload()
+					const tileEmptyArr = makeEmptyArr(tileArray)
+											addEntity('tileSW', 2, tileEmptyArr, tileArray)
+											addEntity('tileHP', 10, tileEmptyArr, tileArray)
+					const enemiesPosArr = 	addEntity('tileE', 10, tileEmptyArr, tileArray)
+					const [heroPosArr] 	= 	addEntity('tileP', 1, tileEmptyArr, tileArray)
+					const enemyMaxHealth = 50
+					const heroMaxHealth = 100
+					const enemiesArr = initMan(Enemy,enemiesPosArr,tileArray,enemyMaxHealth,5)
+					const [hero] = initMan(Hero,[heroPosArr],tileArray,heroMaxHealth,10)
+					moveEvent(enemiesArr,hero,tileArray)
+					drawHealthAndDamage(tileArray,hero)
+				}
+			}
+
+			// Описание события нажатия кнопок управления
+			turnEvent = {
+				up: 'KeyW',
+				down: 'KeyS',
+				left: 'KeyA',
+				right: 'KeyD',
+				attack: 'Space',
+				get dPos() {
+					return [this.dy,this.dx]
+				},
+				set code(eventCode) {
+					if 		(turnEvent.up===eventCode) 		{this.dy = -1; 	this.dx = 0}
+					else if (turnEvent.down===eventCode) 	{this.dy = 1; 	this.dx = 0}
+					else if (turnEvent.left===eventCode) 	{this.dy = 0; 	this.dx = -1}
+					else if (turnEvent.right===eventCode) 	{this.dy = 0; 	this.dx = 1}
+				},
+				hasEvent(eventCode) {
+					return Object.values(this).includes(eventCode)
+				}
+			}
+
+
+			class Man {
+				constructor(y,x,health=0, damage=0) {
+					this.y = y
+					this.x = x
+					this.health = health
+					this.damage = damage
+					this.maxHealth = health
+				}
+
+				// Атаковать если рядом и убить если здоровье меньше нуля
+				attackAndKill(arr,victim) {
+					for (let i = this.y-1; i <= this.y+1 ; i++) {
+						for (let j = this.x-1; j <= this.x+1 ; j++) {
+							if (i<0||i>=24||j<0||j>=40) continue
+							if (isEntity(arr[i][j], victim)) {
+								arr[i][j].entity.health -= this.damage
+								arr[i][j].node.children[0].style.width=arr[i][j].entity.health/arr[i][j].entity.maxHealth*100+'%'
+								if (arr[i][j].entity.health<=0) {
+									delete arr[i][j].entity
+									arr[i][j].node.children[0].remove()
+									arr[i][j].node.classList.remove(victim)
+								}
+								if (victim!=='tileE') return true
+							}
+						}
+					}
+				}
+
+				// Ограничение перемещения
+				restrictedArea(dy,dx,arr) {
+					return (this.y+dy<0 || this.y+dy>=24 || this.x+dx<0 || this.x+dx>=40) ||
+							isEntity(arr[this.y+dy][this.x+dx], 'tileW') ||
+							isEntity(arr[this.y+dy][this.x+dx], 'tileE') ||
+							isEntity(arr[this.y+dy][this.x+dx], 'tileP')
+				}
+
+				// Перемещение сущности
+				replaceEntity(dy,dx,arr,entity) {
+					arr[this.y][this.x].node.classList.remove(entity)
+					arr[this.y+dy][this.x+dx].node.classList.add(entity)
+					arr[this.y+dy][this.x+dx].entity = arr[this.y][this.x].entity
+					delete arr[this.y][this.x].entity
+					const HPBar = arr[this.y][this.x].node.children[0]
+					arr[this.y+dy][this.x+dx].node.append(HPBar)
+					arr[this.y][this.x].node[0]?.remove()
+					this.y = this.y+dy
+					this.x = this.x+dx
+				}
+
+				// Полоска здоровья
+				HPBar(arr) {
+					let HPBar = document.createElement('div')
+					if (!arr[this.y][this.x].node.children[0]) arr[this.y][this.x]?.node.appendChild(HPBar)
+					HPBar = arr[this.y][this.x]?.node.children[0]
+					HPBar.style.width=this.health/this.maxHealth*100+'%'
+					if (this.health>this.maxHealth) this.maxHealth = this.health
+				}
+
+				// Подобрать и использовать мечи или зелье
+				consumeSWorHP(dy,dx,arr) {
+					if (isEntity(arr[this.y+dy][this.x+dx], 'tileHP')) {this.health+=10}
+					arr[this.y+dy][this.x+dx].node.classList.remove('tileHP')
+					if (isEntity(arr[this.y+dy][this.x+dx], 'tileSW')) {this.damage+=10}
+					arr[this.y+dy][this.x+dx].node.classList.remove('tileSW')
+					this.HPBar(arr)
+				}
+
+				// Ударить
+				attack(arr,entity) {
+					if (this.health <= 0) return
+					if (this.attackAndKill(arr,entity,this)) return true
+					this.HPBar(arr)
+				}
+			}
+
+
+			class Enemy extends Man {
+				constructor(y,x,health, damage) {
+					super(y,x,health,damage)
+				}
+				move(dy,dx,arr) {
+					if (this.health <= 0) return
+					dy = getRandomIntInclusive(-1,1)
+					dx = getRandomIntInclusive(-1,1)
+					if (this.attack(arr,'tileP')) return
+					if (this.restrictedArea(dy,dx,arr)) return
+					this.replaceEntity(dy,dx,arr,'tileE')
+				}
+			}
+
+
+			class Hero extends Man {
+				constructor(y,x,health,damage) {
+					super(y,x,health,damage)
+				}
+				move(dy,dx,arr) {
+					if (this.health <= 0) return
+					if (this.restrictedArea(dy,dx,arr)) return
+					this.consumeSWorHP(dy,dx,arr)
+					this.replaceEntity(dy,dx,arr,'tileP')
+				}
+			}
+
+			var game=new Game();
+			game.init();
+		</script>
+	</body>
+</html>
