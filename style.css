@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+
+:root {
+    --white: #FFFFFF;
+    --black: #000000;
+    --red: #FF0000;
+    --orange: #FF8000;
+    --yellow: #FFFF00;
+    --green: #00FF00;
+    --azure: #00FFFF;
+    --all: linear-gradient(var(--azure), var(--green), var(--yellow), var(--orange), var(--red), var(--black));
+}
+
+.titillium-web-regular {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.titillium-web-bold {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+* {
+     /*outline: .1vw solid red;*/
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    /*background: var(--all);*/
+}
+
+.whiteText {
+    color: var(--white);
+}
+
+.blackText {
+    color: var(--black);
+}
+
+.redText {
+    color: var(--red);
+}
+
+.orangeText {
+    color: var(--orange);
+}
+
+.yellowText {
+    color: var(--yellow);
+}
+
+.greenText {
+    color: var(--green);
+}
+
+.azureText {
+    color: var(--azure);
+}
+
+.black {
+    background: var(--black);
+}
+
+.dark {
+    background: rgba(0, 0, 0, 60%);
+}
+
+.red {
+    background: var(--red);
+}
+
+.orange {
+    background: var(--orange);
+}
+
+.green {
+    background: var(--green);
+}
+
+.yellow {
+    background: var(--yellow);
+}
+
+.azure {
+    background: var(--azure);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+header {
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    width: 100%;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--orange);
+}
+
+h1 {
+    user-select: none;
+    font-size: 4vh;
+}
+
+h2 {
+    user-select: none;
+    font-size: 3vh;
+}
+
+
+
+p {
+    user-select: none;
+    font-size: 2vh;
+}
+
+.description {
+    padding: 1vh 1vw;
+    text-align: center;
+    margin: 0vw 0vw 2vw 0vw;
+}
+
+.description > h2 {
+    margin: 0vw 0vw 1vw 0vw;
+}
+
+.container_main {
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.section_IT {
+    margin: 0vw 0vw 4vw 0vw;
+    padding: 4vw;
+    background: center/contain space fixed rgba(0, 0, 0, 60%) url(img/site/circuit-clipart.png);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+
+.section {
+    min-height: 100vh;
+}
+
+.section_header {
+    margin: 0vw 0vw 4vw 0vw;
+}
+
+.section_header h2 {
+    font-size: 6vh;
+}
+
+.section_description {
+    width: 80vw;
+    margin: 0 auto;
+}
+
+.section_description h2 {
+    text-align: start;
+}
+
+.section_description h2 span {
+    font-size: 2vh;
+}
+
+.section_description p {
+    text-align: start;
+    padding: 0 4vw;
+    margin: 1vw 0vw 2vw 0vw;
+}
+::-webkit-scrollbar {
+    width: 0.4vw;
+    background: linear-gradient(var(--azure), var(--green), var(--yellow), var(--orange), var(--red), var(--black));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background: var(--orange);
+  }
